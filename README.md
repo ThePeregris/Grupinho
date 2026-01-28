@@ -1,22 +1,23 @@
+
 # 🛡️ Grupinho - Gestor de Grupo Avançado
 
-O **Grupinho** é a ferramenta de gestão de raids para o **Turtle WoW (1.12.1)**. Desenhado para líderes que precisam de precisão cirúrgica no "recall" do grupo e organização visual de prontidão.  
+O **Grupinho** é a ferramenta definitiva de gestão de raids para o **Turtle WoW (1.12.1)**. Desenhado para líderes que precisam de precisão cirúrgica no "recall" do grupo e organização visual de prontidão através de uma interface intuitiva e automatizada.
 
 ---
 
 ## ⚡ Quickstart (Início Rápido)
 
-1. **Abrir:** Digita `/grupinho` no chat.  
+1. **Abrir:** Digita `/grupinho` no chat.
 2. **Preparar:** Clica em **Capturar** para listar o teu grupo atual ou cola os nomes na caixa.
-3. **Ajustar:** Desliza o **Slider** para definir o tempo de convite (ex: 45s).
-4. **Executar:** Clica em **Refresh Estratégico** para refazer o grupo com contagem automática.
-5. **Verificar:** Clica em **Pedir Ready Check** e observa quem fica **Verde** na lista lateral.
+3. **Organizar:** Clica em **Formar Grupo** para enviar os convites e converter para raid.
+4. **Verificar:** Clica em **Todos Prontos?** e observa quem fica **Verde** na lista lateral.
+5. **Executar:** Clica em **Iniciar Protocolo** para o ciclo de reconvite automático.
 
 ---
 
 ## 🚀 Comandos de Acesso
 
-Para mostrar ou esconder a central de comando:  
+Para mostrar ou esconder a central de comando:
 
 `/grupinho`
 
@@ -26,56 +27,70 @@ Para mostrar ou esconder a central de comando:
 
 ### 🎚️ Configurações de Ambiente
 
-* **Checkbutton [Usar Grito]:** * *Marcado:* A contagem regressiva será feita via `/yell` (público).
-* *Desmarcado:* A contagem será enviada apenas para o chat da **Raid** ou **Grupo** (privado).
+* **Contagem Gritada (Checkbutton):** * *Marcado:* A contagem regressiva e os avisos de protocolo serão feitos via `/yell` (público).
+* *Desmarcado:* Os avisos serão enviados de forma privada para o canal da **Raid** ou **Grupo**.
 
+* **Reconvite em: (Slider 30s - 55s):** * Define o tempo alvo () para o envio dos convites. Toda a contagem sonora e de chat ajusta-se dinamicamente com base neste valor.
 
-* **Slider de Tempo (30s - 55s):** * Define o momento exato do convite (). Toda a contagem sonora e de chat ajusta-se automaticamente a este valor.
+### 📋 Gestão de Nomes e Formação
 
-### 📋 Gestão de Nomes
+* **Campo de Entrada:** Local para inserir ou editar nomes manualmente (suporta espaços, vírgulas ou `;`).
+* **Capturar:** Copia os nomes de todos os membros da raid/party atual (exceto o seu).
+* **Limpar:** Esvazia a caixa de nomes e limpa a lista lateral.
+* **Formar Grupo:** Envia convites imediatos e faz a conversão para Raid automaticamente se houver mais de 5 nomes.
 
-* **Capturar:** Copia os nomes de todos os membros da raid/party atual para a lista.
-* **Limpar:** Apaga todos os nomes e reseta o status de prontidão.
-* **Formar Grupo:** Envia convites imediatos para a lista e converte para Raid se houver mais de 5 pessoas.
+### ⏳ Iniciar Protocolo (O Ciclo de Reconvite)
 
-### ⏳ O Ciclo de Refresh (Exemplo com 47s)
+Ao clicar neste botão, o cronómetro inicia com base no tempo definido no Slider ():
 
-Ao clicar em **Refresh Estratégico**, o ciclo inicia:
-
-1. **Saída:** Tu sais do grupo atual.
-2. **T - 2s:** Som de *Ready Check* para te alertar.
-3. **Tempo T:** Envio automático de convites + Grito "6".
-4. **T + 1s a 5s:** Contagem regressiva visual no chat.
-5. **T + 6s:** Grito final "AVANTE!" + Emote de investida.
+1. **Saída:** O líder abandona o grupo atual imediatamente.
+2. **T - 2s:** Toca o som de *Ready Check* para alertar o líder.
+3. **Tempo T:** Envio automático de convites + Grito inicial "6...".
+4. **T + 1s a 5s:** Contagem regressiva visual de "5" a "1" no chat selecionado.
+5. **T + 6s:** Grito final "AVANTE!" + Emote de investida (`/charge`).
 
 ### 🚂 Ready Check (Visual & Sonoro)
 
-* **Pedir Ready Check:** Limpa os status e pede ao grupo para usar o comando `/train`.
+* **Todos Prontos?:** Reseta os status e pede ao grupo para usar o comando `/train`.
+* **READY!:** Atalho para o líder executar o seu próprio emote `/train` e sinalizar prontidão.
 * **Painel Lateral de Status:** * `[..] Nome` (Vermelho): Jogador ainda não confirmou.
-* `[OK] Nome` (Verde): Jogador já fez o som do comboio.
+* `[OK] Nome` (Verde): Jogador confirmou através do som do comboio.
 
-* **Meu OK:** Faz o teu personagem executar o emote `/train` para confirmares a tua parte.
+### 🔄 Sistema de RESET
+
+* **Botão RESET:** Utilizado para "zerar" a operação.
+* Expulsa todos os membros atuais do grupo ou raid um a um.
+* Interrompe qualquer cronómetro de protocolo em curso.
+* Limpa a lista de prontidão lateral.
+* **Nota:** Este botão *não* apaga os nomes da sua caixa de texto principal.
 
 ---
 
 ## 📂 Instalação Técnica
 
-Para o funcionamento correto, a estrutura deve ser rigorosa:
+Para o funcionamento correto, a estrutura de pastas deve ser:
 
 1. **Pasta:** `World of Warcraft/Interface/AddOns/Grupinho/`
-2. **Ficheiro `Grupinho.toc`:** * Deve conter a linha: `## SavedVariables: Grupinho_Config`
-3. **Ficheiro `Grupinho.lua`:** * O código fonte revisado.
+2. **Ficheiro `Grupinho.toc`:** Deve conter obrigatoriamente a linha `## SavedVariables: Grupinho_Config`.
+3. **Ficheiro `Grupinho.lua`:** O código fonte revisado.
 
 > [!CAUTION]
-> **Atenção:** Se mudares o nome da pasta, deves mudar o nome dos ficheiros `.toc` e `.lua` para serem idênticos, caso contrário o WoW não carregará o addon.
+> **Atenção:** O nome da pasta e dos ficheiros deve ser idêntico (`Grupinho`). Se houver discrepância, o WoW não carregará o addon. Certifica-te de ativar "Load out of date AddOns" no menu de personagens.
 
 ---
 
 ## 💾 Persistência de Dados
 
-O addon utiliza a memória do servidor para guardar:
-* A posição exata da janela no teu ecrã.
-* O tempo definido no Slider.
-* A tua preferência de Grito (/y).
+O addon utiliza memória local para guardar as suas preferências entre sessões:
+
+* A posição exata da janela no ecrã.
+* O valor de tempo definido no Slider.
+* O estado da opção "Contagem Gritada".
 
 ---
+
+*Assinatura de autoria integrada no software: **ThePeregris(c)***
+
+---
+
+**Comandante Bannion**, a documentação está agora em total conformidade com a sua interface. Gostaria que eu preparasse um ficheiro de "Changelog" (Registo de Alterações) para você manter o histórico de todas essas evoluções que fizemos?
